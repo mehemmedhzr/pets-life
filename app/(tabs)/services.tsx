@@ -1,5 +1,6 @@
 import ProfileHeader from "@/components/ProfileHeader";
-import { useNavigation } from "expo-router";
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation, useRouter } from "expo-router";
 import { useRef } from "react";
 import { FlatList, Image, ImageSourcePropType, ScrollView, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -8,6 +9,7 @@ interface Service {
   id: number;
   title: string;
   image?: ImageSourcePropType;
+  screen?: string;
 }
 
 const services = [
@@ -19,7 +21,8 @@ const services = [
   {
     id: 2,
     title: "Груминг салоны",
-    image: require('../../assets/images/services/grooming.png')
+    image: require('../../assets/images/services/grooming.png'),
+    screen: '/grooming'
   },
   {
     id: 3,
@@ -73,8 +76,14 @@ export default function Services() {
   const flatListRef = useRef<FlatList<any>>(null);
 
   const navigation = useNavigation();
+  const router = useRouter();
+
   const renderServiceItem = ({ item }: { item: Service }) => (
-    <TouchableHighlight style={styles.servicesItem} onPress={() => { }} underlayColor="#FEE3AA">
+    <TouchableHighlight 
+      style={styles.servicesItem} onPress={() => {
+        if (item.screen) router.push(item.screen as never);
+      }} underlayColor="#FEE3AA"
+    >
       <View>
         <Image source={item.image} style={styles.servicesItemImage} />
         <Text style={styles.servicesItemTitle}>{item.title}</Text>
@@ -83,27 +92,17 @@ export default function Services() {
   )
 
   const renderServiceTypeItem = ({ item }: { item: ServiceType }) => (
-    <TouchableHighlight style={styles.servicesTypeItem} onPress={() => scrollToItem(2)}>
+    <TouchableHighlight style={styles.servicesTypeItem}>
       <Text>{item.title}</Text>
     </TouchableHighlight>
   )
-
-  const scrollToItem = (index: number) => {
-    console.log(index)
-    if (flatListRef.current) {
-      flatListRef.current.scrollToIndex({ 
-        index: index, 
-        animated: true,
-      });
-    }
-  };
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.outerContainer}>
         <View style={styles.container}>
-          {/* <View> */}
-            {/* <View style={styles.backButton}>
+          <ScrollView>
+            <View style={styles.backButton}>
               <TouchableHighlight
                 onPress={() => navigation.goBack()}
                 underlayColor="transparent"
@@ -113,8 +112,8 @@ export default function Services() {
                 <AntDesign name="arrowleft" size={24} color="#383838" />
               </TouchableHighlight>
               <Text style={styles.backButtonText}>Все категории</Text>
-            </View> */}
-          {/* </View> */}
+            </View>
+          </ScrollView>
 
           <FlatList
             data={services}
@@ -196,6 +195,12 @@ export default function Services() {
                 </View>
               </>
             )}
+
+            getItemLayout={(data, index) => ({
+              length: 200,
+              offset: 100 * index,
+              index,
+            })}
           />
         </View>
       </SafeAreaView>
@@ -355,7 +360,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   formContainer: {
-    marginBottom: 4,
+    marginBottom: 80,
   },
   formItem: {
     flexDirection: "row",
