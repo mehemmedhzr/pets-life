@@ -1,111 +1,122 @@
-import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import ProfileHeader from "@/components/ProfileHeader";
+import { useMemo } from "react";
+import { FlatList, Image, ImageSourcePropType, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import MyPetCard from "../../components/MyPetCard";
+
+
+interface NewsItem {
+  id: number;
+  title: string;
+  description: string;
+}
+
+const news = [
+  {
+    id: 1,
+    title: "Объявление 1",
+    description: "Девочка, 2 месяца, к лотку приучена. Имеются прививки.",
+  },
+  {
+    id: 2,
+    title: "Объявление 2",
+    description: "Порода Лабродор. В районе метро Низами. Откликается на имя Лаки.",
+  },
+]
+
+interface ForumItem {
+  id: number;
+  title: string;
+  images: ImageSourcePropType[];
+}
+
+const forum = [
+  {
+    id: 1,
+    title: "Выбираем витамины для кошек",
+    images: [
+      require('../../assets/images/forum/image_17.png'),
+      require('../../assets/images/forum/image_16.png'),
+    ],
+  },
+  {
+    id: 2,
+    title: "Передержка  собак",
+    images: [
+      require('../../assets/images/forum/image_dog.png'),
+    ],
+  },
+  {
+    id: 3,
+    title: "Выбираем витамины для кошек",
+    images: [
+      require('../../assets/images/forum/image_17.png'),
+      require('../../assets/images/forum/image_16.png'),
+    ],
+  },
+]
 
 export default function Home() {
+  const myPetCardMemo = useMemo(() => <MyPetCard />, [])
 
-  const [isMyPet, setIsMyPet] = useState(false);
+  const renderNewsItem = ({ item }: { item: NewsItem }) => (
+    <View style={styles.homePageNewsItem}>
+      <View style={styles.homePageNewsItemImageContainer}>
+        <Image source={require('../../assets/images/profile.png')} style={styles.homePageNewsItemImage} />
+        <Text style={styles.homePageNewsItemTitle}>{item.title}</Text>
+      </View>
+      <Text style={styles.homePageNewsItemDescription}>{item.description}</Text>
+      <TouchableHighlight style={styles.homePageNewsItemButton}>
+        <Text style={styles.homePageNewsItemButtonText}>открыть</Text>
+      </TouchableHighlight>
+    </View>
+  )
+
+  const renderForumItem = ({ item }: { item: ForumItem }) => (
+    <View style={styles.homePageForumContainerItem}>
+      <Text style={styles.homePageForumContainerItemTitle}>{item.title}</Text>
+
+      <View style={styles.homePageForumContainerItemImages}>
+        {item.images.map((image, index) => (
+          <Image source={image} key={index} />
+        ))}
+      </View>
+    </View>
+  )
+
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <SafeAreaProvider>
-        <SafeAreaView>
-            <View style={styles.profileContainer}>
-              <View style={styles.profileHeader}>
-                <View style={styles.profileHeaderLeft}>
-                  <TouchableOpacity>
-                    <Image source={require('../../assets/images/profile.png')} style={styles.profileHeaderLeftImage} />
-                  </TouchableOpacity>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={news}
+          renderItem={renderNewsItem}
+          numColumns={2}
+          keyExtractor={(item) => item.id.toString()}
+          showsVerticalScrollIndicator={false}
+          columnWrapperStyle={{ gap: 16 }}
+          ListHeaderComponent={() => (
+            <>
+              <View style={styles.profileContainer}>
+                <ProfileHeader />
 
-                  <View style={styles.profileHeaderLeftText}>
-                    <TouchableOpacity>
-                      <Image source={require('../../assets/images/petsLife_logo.png')} style={styles.profileHeaderLeftTextImage} />
-                    </TouchableOpacity>
-
-                    <View>
-                      <Text style={styles.profileHeaderLeftTextWelcome}>
-                        Добро пожаловать, <Text style={styles.profileHeaderLeftTextBold}>Тина.</Text>
-                      </Text>
-                      <Text style={styles.profileHeaderLeftTextWelcome}>Что вы ищите?</Text>
-                    </View>
-                  </View>
-                </View>
-
-                <View style={styles.profileHeaderRight}>
-                  <TouchableOpacity>
-                    <Ionicons name="notifications-outline" size={24} color="#383838" />
-
-                    <View style={styles.profileHeaderRightBadge}>
-                      <Text style={{ color: 'white', fontSize: 10, fontWeight: 'bold' }}>1</Text>
-                    </View>
-                  </TouchableOpacity>
+                <View style={styles.profileSearch}>
+                  <Searchbar
+                    placeholder="я ищу..."
+                    value=""
+                    style={styles.profileSearchInput}
+                    iconColor="#7B7B7B"
+                    placeholderTextColor="#7B7B7B"
+                    inputStyle={{ color: '#383838' }}
+                  />
                 </View>
               </View>
 
-              <View style={styles.profileSearch}>
-                <Searchbar
-                  placeholder="я ищу..."
-                  value=""
-                  style={styles.profileSearchInput}
-                  iconColor="#7B7B7B"
-                  placeholderTextColor="#7B7B7B"
-                  inputStyle={{ color: '#383838' }}
-                />
+              <View>
+                <MyPetCard />
               </View>
-            </View>
 
-            <View style={styles.profileMyPet}>
-              <Text style={styles.homePageTitles}>Мой питомец</Text>
-
-              <View style={styles.profileMyPetContainer}>
-                <View style={styles.profileMyPetContainerInfo}>
-                  <Text style={styles.profileMyPetContainerImageText}>Карточка питомца</Text>
-
-                  <View style={styles.profileMyPetContainerInfoImage}>
-                    <Image source={require('../../assets/images/profile.png')} style={styles.profileMyPetContainerImage} />
-
-                    <View style={styles.profileMyPetContainerInfoImageText}>
-                      <View>
-                        <Text style={styles.profileMyPetContainerInfoImageTextItemTitle}>Кличка</Text>
-                        <Text style={styles.profileMyPetContainerInfoImageTextItemText}>Рыжик</Text>
-                      </View>
-
-                      <View>
-                        <Text style={styles.profileMyPetContainerInfoImageTextItemTitle}>Дата рождения</Text>
-                        <Text style={styles.profileMyPetContainerInfoImageTextItemText}>01.05.2021</Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-                
-                {
-                  !isMyPet ? 
-                  (
-                    <View style={styles.profileMyPetContainerInfoRight}>
-                      <Text style={styles.profileMyPetContainerInfoName}>Чтобы создать карточку питомца, Загрузите данные о вашем питомце,</Text>
-                      <TouchableHighlight
-                        onPress={() => setIsMyPet(true)}
-                        style={styles.profileMyPetContainerInfoButtonContainer}>
-                        <Text style={styles.profileMyPetContainerInfoButton}>Добавить питомца</Text>
-                      </TouchableHighlight>
-                    </View>
-                  ) : (
-                    <View style={styles.profileMyPetContainerInfoRightWithPet}>
-                      <Image source={require('../../assets/images/cat_illustration.png')} style={styles.profileMyPetContainerImage} />
-                      <TouchableHighlight
-                        onPress={() => setIsMyPet(false)}
-                        style={styles.profileMyPetContainerInfoButtonContainerEdit}
-                      >
-                        <Text style={styles.profileMyPetContainerInfoButton}>редактировать</Text>
-                      </TouchableHighlight>
-                    </View>
-                  )
-                }
-              </View>
-            </View>
-
-            <View style={styles.homePagePromotions}>
+              <View style={styles.homePagePromotions}>
                 <Text style={styles.homePageTitles}>Акции для ваших питомцев</Text>
 
                 <View style={styles.homePagePromotionsContainer}>
@@ -141,10 +152,39 @@ export default function Home() {
                     </View>
                   </View>
                 </View>
-            </View>
-        </SafeAreaView>
-      </SafeAreaProvider>
-    </ScrollView>
+              </View>
+
+              <View>
+                <Text style={styles.homePageTitles}>Объявления</Text>
+              </View>
+            </>
+          )}
+
+          ListFooterComponent={() => (
+            <>
+              <TouchableHighlight
+                style={styles.homePageMoreAnnouncements}>
+                <Text style={styles.homePageMoreAnnouncementsText}>Больше объявлений</Text>
+
+              </TouchableHighlight>
+
+              <View style={styles.homePageForum}>
+                <Text style={styles.homePageTitles}>Полезные статьи из форума </Text>
+                <View>
+                  <FlatList
+                    data={forum}
+                    renderItem={renderForumItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                  />
+                </View>
+              </View>
+            </>
+          )}
+        />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
@@ -192,6 +232,7 @@ const styles = StyleSheet.create({
   },
   profileHeaderRight: {
     position: "relative",
+    right: 10,
   },
   profileHeaderRightBadge: {
     position: 'absolute',
@@ -214,10 +255,6 @@ const styles = StyleSheet.create({
     borderColor: "#E0E0E0",
     color: "#7B7B7B",
     backgroundColor: "#FFFFFF",
-  },
-  profileMyPet: {
-    marginTop: 22,
-    marginBottom: 28,
   },
   homePageTitles: {
     fontSize: 18,
@@ -404,5 +441,78 @@ const styles = StyleSheet.create({
   homePageRemainingPromotionsContainerItemSubtitleNormal: {
     backgroundColor: "#fff",
     fontWeight: "normal",
-  }
+  },
+  homePageNewsItem: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+    marginBottom: 16,
+    flexShrink: 1,
+    width: "48%",
+  },
+  homePageNewsItemImageContainer: {
+    flexDirection: "row",
+    gap: 4,
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  homePageNewsItemImage: {
+    width: 33,
+    height: 33,
+    borderRadius: 50,
+  },
+  homePageNewsItemTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#383838",
+  },
+  homePageNewsItemDescription: {
+    fontSize: 12,
+    color: "#383838",
+  },
+  homePageNewsItemButton: {
+    marginTop: "auto",
+  },
+  homePageNewsItemButtonText: {
+    fontSize: 12,
+    color: "#192639",
+    textAlign: "right",
+    textDecorationLine: "underline",
+  },
+  homePageMoreAnnouncements: {
+    backgroundColor: "#192639",
+    padding: 14,
+    borderRadius: 10,
+    marginHorizontal: "auto",
+  },
+  homePageMoreAnnouncementsText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+  homePageForum: {
+    marginBottom: 28,
+    marginTop: 28,
+  },
+  homePageForumContainerItem: {
+    backgroundColor: "#192639",
+    padding: 14,
+    borderRadius: 4,
+    marginRight: 6,
+    maxWidth: 175,
+  },
+  homePageForumContainerItemTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+  homePageForumContainerItemImages: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    gap: 0,
+    justifyContent: "flex-end",
+    marginTop: "auto",
+  },
 });
