@@ -9,7 +9,7 @@ export default function SignUp() {
   const router = useRouter();
 
   const handleRegister = async () => {
-    router.replace("/home");
+    router.push("/home");
   };
 
   return (

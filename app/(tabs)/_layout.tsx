@@ -16,14 +16,14 @@ export default function TabsLayout() {
           shadowOpacity: 0.1,
           shadowRadius: 6,
           elevation: 10, // Android
-    
+
           borderTopWidth: 0,
         },
       }}
     >
-      <Tabs.Screen 
-        name="home" 
-        options={{ 
+      <Tabs.Screen
+        name="home"
+        options={{
           title: "Home",
           headerShown: false,
           tabBarIcon: ({ color, size, focused }) => (
@@ -37,13 +37,13 @@ export default function TabsLayout() {
             width: 32,
             height: 32,
           },
-        }} 
+        }}
       />
 
       <Tabs.Screen
-        name="inbox" 
-        options={{ 
-          title: "Inbox", 
+        name="inbox"
+        options={{
+          title: "Inbox",
           headerShown: false,
 
           tabBarIcon: ({ color, size, focused }) => (
@@ -57,15 +57,15 @@ export default function TabsLayout() {
             width: 32,
             height: 32,
           },
-        }} 
+        }}
       />
 
       <Tabs.Screen
-        name="reader" 
-        options={{ 
-          title: "Reader", 
+        name="reader"
+        options={{
+          title: "Reader",
           headerShown: false,
-          
+
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? "barcode" : "barcode-outline"}
@@ -77,15 +77,15 @@ export default function TabsLayout() {
             width: 32,
             height: 32,
           },
-        }} 
+        }}
       />
 
       <Tabs.Screen
-        name="services" 
-        options={{ 
-          title: "Services", 
+        name="services"
+        options={{
+          title: "Services",
           headerShown: false,
-          
+
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? "paw" : "paw-outline"}
@@ -97,15 +97,15 @@ export default function TabsLayout() {
             width: 32,
             height: 32,
           },
-        }} 
+        }}
       />
 
       <Tabs.Screen
-        name="favorites" 
-        options={{ 
-          title: "Favorites", 
+        name="favorites"
+        options={{
+          title: "Favorites",
           headerShown: false,
-          
+
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? "heart" : "heart-outline"}
@@ -117,8 +117,51 @@ export default function TabsLayout() {
             width: 32,
             height: 32,
           },
-        }} 
-      /> 
+        }}
+      />
+
+      <Tabs.Screen
+        name="grooming/index"
+        options={{
+          href: null, // hides from tab bar
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="grooming/[saloonId]/booking"
+        options={{
+          href: null, // hides from tab bar
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="grooming/[saloonId]/index"
+        options={{
+          href: null, // hides from tab bar
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="grooming/[saloonId]/ContactView"
+        options={{
+          href: null, // hides from tab bar
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="grooming/[saloonId]/ServicesView"
+        options={{
+          href: null, // hides from tab bar
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="grooming/[saloonId]/ReviewsView"
+        options={{
+          href: null, // hides from tab bar
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 }

@@ -9,11 +9,11 @@ export default function Login() {
   const router = useRouter();
 
   const handleLogin = async () => {
-    router.replace("/home");
+    router.push("/home");
   };
 
   const handleRegister = async () => {
-    router.replace("/signup");
+    router.push("/signup");
   };
 
   return (
@@ -27,7 +27,10 @@ export default function Login() {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
           keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0} 
         >
-          <ScrollView contentContainerStyle={styles.scrollView}>
+          <ScrollView 
+            contentContainerStyle={styles.scrollView}
+            showsVerticalScrollIndicator={false}
+          >
             <View style={styles.logoContainer}>
               <Image source={require("../assets/images/petsLife_logo.png")}/>
               <Image source={require("../assets/images/petsLife_logo_2.png")}/>
@@ -54,6 +57,7 @@ export default function Login() {
               <TextInput
                 mode="outlined"
                 label="Пароль:"
+                secureTextEntry={true}
                 placeholder=""
                 right={<TextInput.Icon icon="eye" />}
                 theme={{

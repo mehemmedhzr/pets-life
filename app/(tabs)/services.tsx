@@ -101,7 +101,7 @@ export default function Services() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.outerContainer}>
         <View style={styles.container}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.backButton}>
               <TouchableHighlight
                 onPress={() => navigation.goBack()}

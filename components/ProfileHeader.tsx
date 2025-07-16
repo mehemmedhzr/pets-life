@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -6,7 +7,7 @@ export default function ProfileHeader() {
   return (
     <View style={styles.profileHeader}>
       <View style={styles.profileHeaderLeft}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/profile')}>
           <Image source={require('../assets/images/profile.png')} style={styles.profileHeaderLeftImage} />
         </TouchableOpacity>
 

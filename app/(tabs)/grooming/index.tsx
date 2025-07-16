@@ -5,7 +5,7 @@ import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableHighlight, To
 import MapView, { Marker } from 'react-native-maps';
 import { Searchbar } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Saloon, saloons } from "../../constants/saloons";
+import { Saloon, saloons } from "../../../constants/saloons";
 
 const locations = [
   {
@@ -36,8 +36,8 @@ export default function Grooming() {
   const [filter, setFilter] = useState<string | null>(null);
 
   const filteredLocations = filter
-    ? locations.filter(loc => loc.type === filter)
-    : locations;
+              ? locations.filter(loc => loc.type === filter)
+              : locations;
 
   const navigation = useNavigation();
   const router = useRouter();
@@ -53,7 +53,7 @@ export default function Grooming() {
         </View>
         <View style={styles.saloonRatingContainer}>
           <Text style={styles.saloonRating}>{item.rating}</Text>
-          <Image source={require('../../assets/images/saloons/rating.png')} />
+          <Image source={require('../../../assets/images/saloons/rating.png')} />  
         </View>
         <Text style={styles.saloonAddress}>{item.address}</Text>
         <Text style={styles.saloonWorkingHours}>{item.workingHours}</Text>
@@ -87,7 +87,7 @@ export default function Grooming() {
               ListHeaderComponent={() => (
                 <>
                   <Image
-                    source={require('../../assets/images/petsLife_logo.png')}
+                    source={require('../../../assets/images/petsLife_logo.png')}
                     style={styles.headerImage}
                     resizeMode="contain"
                   />
@@ -135,24 +135,10 @@ export default function Grooming() {
                       longitudeDelta: 0.01,
                     }}
                   >
-                    <View style={styles.filterContainer}>
-                      <TouchableHighlight onPress={() => setFilter(null)} underlayColor="transparent">
-                        <Text>All</Text>
-                      </TouchableHighlight>
-                      <TouchableHighlight onPress={() => setFilter('petstore')} underlayColor="transparent">
-                        <Text>Petstore</Text>
-                      </TouchableHighlight>
-                      <TouchableHighlight onPress={() => setFilter('boutique')} underlayColor="transparent">
-                        <Text>Boutique</Text>
-                      </TouchableHighlight>
-                      <TouchableHighlight onPress={() => setFilter('zoo')} underlayColor="transparent">
-                        <Text>Zoo</Text>
-                      </TouchableHighlight>
-                    </View>
 
                     {filteredLocations.map(loc => (
                       <Marker
-                        key={loc.id}
+                        key={`${loc.id}-${loc.latitude}-${loc.longitude}`}
                         coordinate={{ latitude: loc.latitude, longitude: loc.longitude }}
                         title={loc.title}
                       />
@@ -169,6 +155,25 @@ export default function Grooming() {
     </SafeAreaProvider>
   )
 }
+
+// const MapFilter = () => {
+//     return (
+//         <View style={styles.filterContainer}>
+//           <TouchableHighlight onPress={() => setFilter(null)} underlayColor="transparent">
+//             <Text>All</Text>
+//           </TouchableHighlight>
+//           <TouchableHighlight onPress={() => setFilter('petstore')} underlayColor="transparent">
+//             <Text>Petstore</Text>
+//           </TouchableHighlight>
+//           <TouchableHighlight onPress={() => setFilter('boutique')} underlayColor="transparent">
+//             <Text>Boutique</Text>
+//           </TouchableHighlight>
+//           <TouchableHighlight onPress={() => setFilter('zoo')} underlayColor="transparent">
+//             <Text>Zoo</Text>
+//           </TouchableHighlight>
+//         </View>
+//         )
+// }
 
 const styles = StyleSheet.create({
   container: {
