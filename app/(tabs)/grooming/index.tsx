@@ -2,7 +2,7 @@ import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRouter } from "expo-router";
 import { useState } from "react";
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Searchbar } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Saloon, saloons } from "../../../constants/saloons";
@@ -134,6 +134,7 @@ export default function Grooming() {
                       latitudeDelta: 0.01,
                       longitudeDelta: 0.01,
                     }}
+                    provider={PROVIDER_GOOGLE}
                   >
 
                     {filteredLocations.map(loc => (

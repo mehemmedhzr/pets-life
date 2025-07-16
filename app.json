@@ -18,7 +18,12 @@
       },
       "versionCode": 1,
       "edgeToEdgeEnabled": true,
-      "package": "com.mahammadhzr.petslifedemo"
+      "package": "com.mahammadhzr.petslifedemo",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCSgQRubfB12V7ytKMqmZP1qgFTiZIrFiY"
+        }
+      }
     },
     "web": {
       "bundler": "metro",

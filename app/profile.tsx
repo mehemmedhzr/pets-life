@@ -2,13 +2,13 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Image,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    useColorScheme,
-    View
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
@@ -68,7 +68,7 @@ const ProfileScreen: React.FC = () => {
             </View>
 
             <View style={styles.logoutContainer}>
-            <Pressable style={[styles.logoutButton, { backgroundColor: theme.logoutBg, borderColor: theme.logoutBorder }]}>
+            <Pressable style={[styles.logoutButton, { backgroundColor: theme.logoutBg, borderColor: theme.logoutBorder }]} onPress={() => router.push('/login')}>
                 <View style={styles.buttonContent}>
                     <Feather name="log-out" size={20} color={theme.logout} />
                     <Text style={[styles.logoutText, { color: theme.logout }]}>Выход</Text>
